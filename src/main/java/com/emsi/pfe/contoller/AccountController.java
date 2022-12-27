@@ -1,8 +1,11 @@
 package com.emsi.pfe.contoller;
 
 import com.emsi.pfe.model.PassengerDTO;
+import com.emsi.pfe.security.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.UUID;
 
@@ -10,6 +13,8 @@ import java.util.UUID;
 @RequestMapping
 public class AccountController {
 
+    @Autowired
+    SecurityUtils securityUtils;
     @GetMapping("/passengers/{passengerPublicId}")
     public PassengerDTO getPassengerByPublicId(@PathVariable String passengerPublicId, @RequestHeader(name = "name",required = false) String name)
     {
@@ -24,7 +29,7 @@ public class AccountController {
     }
 
     @GetMapping("/passengers")
-    public PassengerDTO getPassengerByEmail(@RequestHeader(name = "email",required = false) String email)
+    public PassengerDTO getPassengerByEmail(@RequestHeader(name = "email",required = false) String email, HttpServletRequest request)
     {
         PassengerDTO passengerDTO=new PassengerDTO();
         passengerDTO.setPublicId(email);
